@@ -1,0 +1,10 @@
+# : comments
+
+# ignore Pycharm folder .idea
+.idea/
+
+# ignore xml
+.xml
+
+#ignore iml
+.iml

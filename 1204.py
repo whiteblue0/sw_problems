@@ -15,4 +15,3 @@ for i in range(1,Case+1):
     m = max(output)
     k = [x for x, y in enumerate(output) if y ==m ]
     print('#{} {}'.format(testnum, max(k)))
-

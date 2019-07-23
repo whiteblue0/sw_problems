@@ -8,3 +8,6 @@
 
 #ignore iml
 .iml
+
+#ignore venv
+venv/

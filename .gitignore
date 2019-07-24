@@ -1,7 +1,9 @@
 # : comments
 
-# ignore Pycharm folder .idea
+# ignore folders
 .idea/
+venv/
+__pycache__/
 
 # ignore xml
 .xml
@@ -9,5 +11,3 @@
 #ignore iml
 .iml
 
-#ignore venv
-venv/

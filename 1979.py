@@ -26,7 +26,7 @@ for i in range(N**2):
         cnt += 1
         ny, nx = y + dy[d], x + dx[d]
         if cnt == K :
-            print('1이 맞습니다')
+            print('{} 들어갈 자리 하나'.format(K))
             if not ispass(ny, nx):
                 print('다음줄')
                 ny, nx = y + 1, 0

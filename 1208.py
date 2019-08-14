@@ -28,10 +28,8 @@ for a in range(1,T+1):
         for i in range(len(box)):
             if box[i] <= mymin:
                 mymin = box[i]
-                minidx = i
             if box[i] >= mymax:
                 mymax = box[i]
-                maxidx = i
         cnt -= 1
 
 

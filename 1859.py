@@ -11,24 +11,22 @@ for a in range(1,T+1):
     cnt = 0
     top = max(table)
     startidx = 0
-    endidx = table.index(max(table))
+    maxidx = table.index(top)
 
-    while startidx < len(table):
-        for i in range(startidx,endidx):
-            cnt += top - table[i]
+    while startidx<len(table)-1:
+        for i in range(startidx,maxidx):
+            cnt+=top-table[i]
 
-        startidx = endidx + 1
-        temp = 0
+        top=0
+        startidx=maxidx+1
         for i in range(startidx,len(table)):
-            if temp <= table[i]:
-                endidx = i
+            if table[i]>top:
+                top=table[i]
+                maxidx = i
 
-        # if table[startidx:]:
-        #     endidx = table.index(max(table[startidx:]))
 
-        top = table[endidx]
-        print('리스트 길이:',len(table))
-        print('{}번째 케이스 start:{} end{} cnt={}'.format(a,startidx, endidx,cnt))
+
+
 
     print('#{} {}'.format(a,cnt))
 

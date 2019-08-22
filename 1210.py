@@ -9,21 +9,21 @@ for tc in range(10):
     data = [list(map(int, input().split())) for _ in range(l)]
 
 
-    #좌,우,하
+    #좌,우,상
     dx = [-1,1,0]
-    dy = [0,0,1]
+    dy = [0,0,-1]
 
     def ispass(y,x):
         return 0<=x<l and 0<=y<l and data[y][x]
 
     for i in range(l):
-        if data[0][i] == 1:
-            y, x = (0, i)
+        if data[99][i] == 2:
+            y, x = (99, i)
             start = x
             # print('start:({},{})'.format(x,y))
             d = 0
 
-            while y < l-1:
+            while y > 0:
                 ny, nx = y+dy[d], x+dx[d]
                 if d == 0 or d == 1:
                     if ispass(ny, nx):
@@ -43,5 +43,7 @@ for tc in range(10):
 
 
                 # print('d:{} x:{} y:{}'.format(d,x,y))
-            if data[y][x] == 2:
-                print('#{} {}'.format(tc+1,start))
+            # if data[y][x] == 2:
+            print('#{} {}'.format(tc+1,x))
+
+

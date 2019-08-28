@@ -23,4 +23,4 @@ for tc in range(int(input())):
     visited = [0]*N
     myMin=987654321
     DFS(0, 0)
-    print()
+    print('#{} {}'.format(tc+1,myMin))

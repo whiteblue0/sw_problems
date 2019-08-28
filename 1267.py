@@ -30,13 +30,15 @@ for tc in range(10):
         end = data[j*2+1]
         dic[start].append(end)
 
+    print(dic)
+
     while len(visited) != V:
         find()
         for k in able:
             visited.add(k)
             result.append(k)
-    print("#{}".format(tc+1), end = " ")
-    print(*result)
+    # print("#{}".format(tc+1), end = " ")
+    # print(*result)
 
 
 

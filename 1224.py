@@ -56,3 +56,4 @@ for tc in range(1,T+1):
             stack.append(fixlst[i])
 
     print('#{} {}'.format(tc,result))
+    

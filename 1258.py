@@ -14,16 +14,18 @@ def BFS(sy,sx):
     que.append((sy,sx))
     visited[sy][sx] = cnt
 
-    ymin, ymax = sy, sx
-    xmin, xmax = sy, sx
-
+    ymin, ymax = sy, sy
+    xmin, xmax = sx, sx
     while que:
+
         y,x = que.pop(0)
+
         for i in range(4):
             ny = y+dy[i]
             nx = x+dx[i]
             if ispass(ny,nx):
                 que.append((ny,nx))
+                # print('ny,nx',ny,nx)
                 visited[ny][nx] = cnt
                 if ny <= ymin:
                     ymin = ny
@@ -33,9 +35,10 @@ def BFS(sy,sx):
                     xmin = nx
                 if nx >= xmax:
                     xmax = nx
-    print(ymax+1,ymin,xmax+1,xmin)
+    # print('y',ymax+1,ymin)
+    # print('x',xmax+1,xmin)
     info.append(((ymax-ymin+1),(xmax-xmin+1)))
-
+    # print(tc,'info',info)
 
 
 T = int(input())
@@ -70,8 +73,8 @@ for tc in range(1,T+1):
                     info[j], info[j+1] = info[j+1], info[j]
 
 
-    print(info)
-    # print('#{} {}'.format(tc,cnt),end=' ')
-    # for i in range(len(info)):
-    #     print(info[i][0],info[i][1],end=' ')
-    # print()
+    # print('info',info)
+    print('#{} {}'.format(tc,cnt),end=' ')
+    for i in range(len(info)):
+        print(info[i][0],info[i][1],end=' ')
+    print()

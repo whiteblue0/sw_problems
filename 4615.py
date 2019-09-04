@@ -20,54 +20,55 @@ def turnover(x,y,c):
     for i in range(8):
         nx,ny = x+dx[i],y+dy[i]
         if ispass(nx,ny) and table[ny][nx] == ec:
-            cy,cx = ny+dy[i],nx+dx[i]
-            if ispass(cx,cy):
-                cnt = 0
-                while table[cy][cx] == c:
-                    cy += dy[i]
-                    cx += dx[i]
-                    cnt += 1
-                    if not ispass(cx,cy):
-                        break
-                    elif table[cy][cx] == 0:
-                        break
-                print('dir', i)
-                print('cx,cy',cx,cy)
-                print('#{} x,y'.format(r),x,y)
 
-                if table[cy-dy[i]][cx-dx[i]] == c:
-                    cy -= dy[i]
-                    cx -= dx[i]
-                    print('cnt',cnt)
-                    for u in range(1,cnt+1):
-                        table[cy][cx] = c
-                        cy -= dy[i]
-                        cx -= dx[i]
+            while table[ny][nx] == ec:
+                ny += dy[i]
+                nx += dx[i]
+                if not ispass(nx,ny):
+                    ny -= dy[i]
+                    nx -= dx[i]
+                    break
 
-                for _ in range(N):
-                    print(table[_])
+            if table[ny][nx] == c:
+                while ny != y or nx != x:
+                    table[ny][nx] = c
+                    ny -= dy[i]
+                    nx -= dx[i]
+
+
+            # for _ in range(N):
+            #     print(table[_])
 
 
 T = int(input())
+for tc in range(1,T+1):
+    N,M = map(int, input().split())
+    table = [[0]*N for _ in range(N)]
 
-N,M = map(int, input().split())
-table = [[0]*N for _ in range(N)]
-
-middle = N//2
-table[middle][middle] = 2
-table[middle-1][middle] = 1
-table[middle][middle-1] = 1
-table[middle-1][middle-1] = 2
+    middle = N//2
+    table[middle][middle] = 2
+    table[middle-1][middle] = 1
+    table[middle][middle-1] = 1
+    table[middle-1][middle-1] = 2
 
 
-# for i in range(N):
-#     print(table[i])
+    # for i in rangee[i])
 
-# place[0] = x, place[1] = y, place[3] = color
-for r in range(M):
-    point = (list(map(int, input().split())))
-    point[0] -= 1
-    point[1] -= 1
-    x,y,c = point[0], point[1], point[2]
-    turnover(x,y,c)
+    # place[0] = x, place[1] = y, place[3] = color
+    for r in range(M):
+        point = (list(map(int, input().split())))
+        point[0] -= 1
+        point[1] -= 1
+        x,y,c = point[0], point[1], point[2]
+        turnover(x,y,c)
+
+    cnt1 = 0
+    cnt2 = 0
+    for i in range(N):
+        for j in range(N):
+            if table[i][j] == 1:
+                cnt1+=1
+            elif table[i][j] ==2:
+                cnt2+=1
+    print("#{} {} {}".format(tc,cnt1,cnt2))
 

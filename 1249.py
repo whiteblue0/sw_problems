@@ -1,33 +1,40 @@
 import sys
-sys.stdin = open("1249.txt")
-#   우, 하, 좌, 상
-dx = [1,0,-1,0]
-dy = [0,1,0,-1]
+sys.stdin = open('1249.txt', 'r')
 
-def ispass(ny,nx):
-    return 0<=nx<N and 0<=ny<N
+dx = [0, 0 ,1, -1]
+dy = [1, -1, 0, 0]
 
-def bfs(s):
+def ispass(y, x):
+    return 0<=x<N and 0<=y<N
+
+def bfs(y,x):
+
     que = []
-    visited[s[0]][s[1]] = data[s[0]][s[1]]
-    que.append(s)
-    while que:
-        y,x,k = que.pop(0)
+
+    dist[y][x] = 0
+    que.append((y, x))
+
+    while len(que) != 0:
+        y, x = que.pop(0)
+
         for i in range(4):
-            ny,nx,nk = y+dy[i],x+dx[i],data[y+dy[i]][x+dx[i]]
-            if ispass(ny,nx):
-                visited[ny][nx] = nk + k
-
-
+            ny = y+dy[i]
+            nx = x+dx[i]
+            if ispass(ny, nx) and dist[ny][nx] > dist[y][x] + data[ny][nx]:
+                dist[ny][nx] =dist[y][x]+data[ny][nx]
+                que.append((ny, nx))
 
 
 T = int(input())
-
-N = int(input())
-data = [[int(_1) for _1 in input()] for _2 in range(N)]
-visited = [[0]*N for _ in range(N)]
-for _ in range(N):
-    print(data[_])
-
-start = (0,0,0)
-goal =(N-1,N-1)
+for tc in range(1,T+1):
+    N = int(input())
+    data = [list(map(int,input())) for _ in range(N)]
+    dist = [[987654321] * N for _ in range(N)]
+    bfs(0,0)
+    # for _ in range(N):
+    #     print(data[_])
+    # print()
+    #
+    # for _ in range(N):
+    #     print(dist[_])
+    print("#{} {}".format(tc, dist[N-1][N-1]))

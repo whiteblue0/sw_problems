@@ -48,7 +48,11 @@ sys.stdin = open('1979.txt')
 #
 #     print('#{} {}'.format(a+1, fit))
 #
+<<<<<<< HEAD
 
+=======
+#
+>>>>>>> 3493ec70266b67dea9a25aeb34037fbc2e499f95
 def xblock(y,x):
     if x == N-1 or not puzzle[y][x+1]:
         return True
@@ -67,6 +71,8 @@ for tc in range(1,T+1):
     puzzle = []
     for i in range(N):
         puzzle.append(list(map(int, input().split())))
+<<<<<<< HEAD
+=======
 
     cnt = 0
     for i in range(N):
@@ -83,6 +89,31 @@ for tc in range(1,T+1):
     # print('#',tc)
     # print('x',cnt,end=' ')
     # cnt = 0
+>>>>>>> 3493ec70266b67dea9a25aeb34037fbc2e499f95
+
+    cnt = 0
+    for i in range(N):
+        temp=0
+        for j in range(N):
+<<<<<<< HEAD
+            if puzzle[i][j] == 1:
+                temp += 1
+                if temp==K:
+                    if xblock(i,j):
+=======
+            if puzzle[j][i] == 1:
+                temp += 1
+                if temp==K:
+                    if yblock(j,i):
+>>>>>>> 3493ec70266b67dea9a25aeb34037fbc2e499f95
+                        cnt+=1
+
+            else:
+                temp = 0
+<<<<<<< HEAD
+    # print('#',tc)
+    # print('x',cnt,end=' ')
+    # cnt = 0
 
     for i in range(N):
         temp=0
@@ -96,5 +127,10 @@ for tc in range(1,T+1):
             else:
                 temp = 0
     # print('y',cnt)
+=======
+    # print('y',cnt)
+
+    print('#{} {}'.format(tc, cnt))
+>>>>>>> 3493ec70266b67dea9a25aeb34037fbc2e499f95
 
     print('#{} {}'.format(tc, cnt))

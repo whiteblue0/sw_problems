@@ -1,5 +1,5 @@
 import sys
-sys.stdin = open('input.txt')
+sys.stdin = open('5209.txt')
 
 
 def dfs(y,cnt):
@@ -33,3 +33,5 @@ for tc in range(1,T+1):
     visited=[0]*N
     myMin=987654321
     dfs(0,0)
+
+    print('#{} {}'.format(tc,myMin))

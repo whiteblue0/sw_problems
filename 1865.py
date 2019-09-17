@@ -3,7 +3,7 @@ sys.stdin = open('1865.txt')
 
 def dfs(x,cnt):
     global mymax
-    if cnt<= mymax:
+    if cnt< mymax:
         return
     if x == N:
         if mymax<cnt:

@@ -14,7 +14,7 @@ def decode(code):
         num=''
         for j in range(7):
             num += code[i*7+j]
-            
+
 
 
 table = {'0':'0000',

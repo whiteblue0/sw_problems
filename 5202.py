@@ -5,14 +5,11 @@ T = int(input())
 for tc in range(1,T+1):
     N = int(input())
     data = [list(map(int, input().split())) for _ in range(N)]
-    data.sort()
-
-    line = []
-
+    data.sort(key=lambda x : x[1])
+    cnt = 0
+    end = 0
     for i in range(N):
-        if not line:
-            line.append(data[i])
-        elif line[-1][1] <= data[i][0]:
-            line.append(data[i])
-    result = len(line)
-    print("#{} {}".format(tc,result))
+        if end <= data[i][0]:
+            cnt += 1
+            end = data[i][1]
+    print('#{} {}'.format(tc, cnt))

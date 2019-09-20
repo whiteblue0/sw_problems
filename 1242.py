@@ -78,4 +78,4 @@ for tc in range(1,T+1):
                 m -= 14
             else:
                 m -= 1
-    print()
+

@@ -73,7 +73,8 @@ for tc in range(1,T+1):
                 print(adder)
                 print(adder[-7*k:])
                 if adder[-7*k:] in decoder:
-                    for ck in range()
+                    for ck in range():
+                        pass
 
                 m -= 14
             else:

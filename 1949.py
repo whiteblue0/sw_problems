@@ -1,7 +1,7 @@
 import sys
-from copy import deepcopy
 sys.stdin = open('1949.txt')
 
+from copy import deepcopy
 # 우 하 상 좌
 dx = [1,0,0,-1]
 dy = [0,1,-1,0]
@@ -61,14 +61,14 @@ for tc in range(1,T+1):
                         if line < visited[b][a]:
                             line = visited[b][a]
 
-                print("깊이:{},좌표:{},{}".format(k,n,m))
-                for _ in range(N):
-                    print(data[_])
-                print()
-
-                for _ in range(N):
-                    print(visited[_])
-                print()
-
+                # print("깊이:{},좌표:{},{}".format(k,n,m))
+                # for _ in range(N):
+                #     print(data[_])
+                # print()
+                #
+                # for _ in range(N):
+                #     print(visited[_])
+                # print()
+                #
 
     print("#{} {}".format(tc,line))

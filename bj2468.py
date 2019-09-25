@@ -27,7 +27,7 @@ for i in range(1,101):
     cnt = 1
     for m in range(N):
         for n in range(N):
-            if data[m][n] >i and not visited[m][n]:
+            if data[m][n] > i and not visited[m][n]:
                 bfs(m,n,i)
                 cnt += 1
 #     if result < cnt:

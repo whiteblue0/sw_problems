@@ -29,3 +29,7 @@ for tc in range(T):
     powerset(N, 0, 0)
 
     print("#%d %d" % (tc+1, ans - B))
+
+
+
+#git checker

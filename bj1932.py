@@ -3,7 +3,6 @@ import collections
 def ispass(y):
     return 0<=y<N
 
-
 # def dfs(y,x,cnt):
 #     global result
 #

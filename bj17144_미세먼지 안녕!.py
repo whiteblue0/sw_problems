@@ -26,7 +26,7 @@ def windup(sy,sx):
         ny,nx = y+ uy[d],x+ux[d]
         if ispass(ny,nx) and data[ny][nx] == -1:
             break
-        elif ispass(ny,nx) and ny<=sy:
+        elif ispass(ny,nx) and ny <= sy:
             data[y][x] = data[ny][nx]
             data[ny][nx] = 0
         else:
@@ -46,7 +46,7 @@ def winddown(sy,sx):
         ny,nx = y+ uy[d],x+ux[d]
         if ispass(ny,nx) and data[ny][nx] == -1:
             break
-        elif ispass(ny,nx) and ny>=sy:
+        elif ispass(ny,nx) and ny >= sy:
             data[y][x] = data[ny][nx]
             data[ny][nx] = 0
         else:
@@ -78,10 +78,12 @@ for t in range(T):
             diffused[i][j] = 0
     windup(cleaner[0][0],cleaner[0][1])
     winddown(cleaner[1][0],cleaner[1][1])
-result = -2
+result = 0
 for i in range(R):
     for j in range(C):
         result += data[i][j]
 if result == -2:
     result = 0
+else:
+    result += 2
 print(result)

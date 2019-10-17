@@ -61,21 +61,21 @@ data = [list(map(int,input().split())) for _ in range(R)]
 diffused = [[0]*C for _ in range(R)]
 marker = []
 cleaner = []
-for i in range(R):
-    for j in range(C):
-        if data[i][j] > 0:
-            marker.append((i,j,data[i][j]))
-        elif data[i][j] == -1:
-            cleaner.append((i,j))
-
-for i in range(len(marker)):
-    diffusion(marker[i][0],marker[i][1],marker[i][2])
 
 for t in range(T):
     for i in range(R):
         for j in range(C):
+            if data[i][j] > 0:
+                marker.append((i, j, data[i][j]))
+            elif data[i][j] == -1:
+                cleaner.append((i, j))
+    for i in range(len(marker)):
+        diffusion(marker[i][0], marker[i][1], marker[i][2])
+    for i in range(R):
+        for j in range(C):
             data[i][j] += diffused[i][j]
             diffused[i][j] = 0
+    marker = []
     windup(cleaner[0][0],cleaner[0][1])
     winddown(cleaner[1][0],cleaner[1][1])
 result = 0

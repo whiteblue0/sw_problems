@@ -65,7 +65,7 @@ cleaner = []
 for t in range(T):
     for i in range(R):
         for j in range(C):
-            if data[i][j] > 0:
+            if data[i][j] >= 5:
                 marker.append((i, j, data[i][j]))
             elif data[i][j] == -1:
                 cleaner.append((i, j))

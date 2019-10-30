@@ -1,35 +1,32 @@
-T = input()
-P = input()
-LT = len(T)
-LP = len(P)
-que = 0
-ans = []
-pattern = []
-temp = 0
-for i in range(LP):
-    if P[i] == P[0]:
-        for j in range(LP-i):
-            if P[i+j] != P[j]:
-                break
-            else:
-                pattern.append(P[i+j])
+text = input()
+pattern = input()
+pi = [0 for i in range(0, len(pattern))]
+result = list()
+count = 0
 
+j=0
+for i in range(1,len(pattern)):
+    while(j > 0 and pattern[i] != pattern[j]):
+        j = pi[j - 1]
+    if(pattern[i] == pattern[j]):
+        j+=1
+        pi[i] = j
 
-while que <= (LT-LP):
-    cnt = 0
-    for i in range(LP):
-        if P[i] == T[que+i]:
-            pattern.append(P[i])
+j = 0;
+patternLength = len(pattern)
+textLength = len(text)
+for i in range(0, textLength):
+    while(j > 0 and text[i] != pattern[j]):
+        j = pi[j - 1]
+    if(text[i] == pattern[j]):
+        if(j == patternLength - 1):
+            ##같은 패턴을 찾았음
+            result.append(i - patternLength + 2)
+            count+=1
+            j = pi[j]
         else:
+            j+=1
 
-        cnt += 1
-    if cnt == LP:
-        ans.append(que)
-        que += 1
-
-print(len(ans))
-for i in range(len(ans)):
-    if i == len(ans):
-        print(ans[i])
-    else:
-        print(ans[i],end='')
+print(count)
+for c in result:
+    print(c)

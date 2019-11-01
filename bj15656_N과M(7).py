@@ -1,23 +1,27 @@
 N,M = map(int, input().split())
 data = list(map(int, input().split()))
+data.sort()
 
-def permu1(c):
-    print(result[:M])
+
+def permu(c):
     if c == M:
         # print(result)
+        for i in range(len(result)):
+            if i == len(result) -1:
+                print(result[i])
+            else:
+                print(result[i],end=' ')
         return
 
     for i in range(N):
-        if not visited[i]:
-            visited[i] = 1
-            result[c] = data[i]
-            permu1(c+1)
-            visited[i]=0
+        result[c] = data[i]
+        permu(c + 1)
 
 
-K = 5
-data = [1,2,3,4,5,6]
 visited = [0]*N
-result = [0]*K
+result = [0]*M
+ans = []
 
-permu1(0)
+permu(0)
+
+

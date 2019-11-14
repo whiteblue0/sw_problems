@@ -1,55 +1,40 @@
+def calc(value, i, op):
+    if op == 0 :
+        return value + nums[i]
+    elif op == 1 :
+        return value - nums[i]
+    elif op == 2 :
+        return value * nums[i]
+    elif op == 3 :
+        return int(value / nums[i])
+
+    return 0
+
+def dfs(k, rst):
+    global myMax, myMin
+    if k == N-1:
+        myMax = max(rst, myMax)
+        myMin = min(rst, myMin)
+        return
+
+    for i in range(4):
+        if oper[i] == 0: continue
+        oper[i] -= 1
+        dfs(k + 1, calc(rst, k+1, i))
+        oper[i] += 1
+
 import sys
 sys.stdin = open("4008.txt")
-
-
-def dfs(oper,cnt):
-    for i in range(N-1):
-        if oper == 0 and opercnt[0]:
-            opercnt[0] -= 1
-            if opercnt[0] == 0:
-                oper += 1
-                oper %= 4
-            cnt += numstack[i+1]
-            dfs(oper ,cnt)
-            opercnt[0] += 1
-
-        elif oper == 1 and opercnt[1]:
-            opercnt[1] -= 1
-            if opercnt[1] == 0:
-                oper += 1
-                oper %= 4
-            cnt -= numstack[i + 1]
-            dfs(oper, cnt)
-            opercnt[1] += 1
-        elif oper == 2 and opercnt[2]:
-            opercnt[2] -= 1
-            if opercnt[2] == 0:
-                oper += 1
-                oper %= 4
-            cnt *= numstack[i + 1]
-            dfs(oper, cnt)
-            opercnt[2] += 1
-        elif oper == 3 and opercnt[3]:
-            opercnt[3] -= 1
-            if opercnt[3] == 0:
-                oper += 1
-                oper %= 4
-            cnt /= numstack[i + 1]
-            cnt = int(cnt)
-            dfs(oper, cnt)
-            opercnt[3] += 1
-
-
-# input
 T = int(input())
-for tc in range(1,T+1):
-    N = int(input())
-    opercnt = list(map(int,input().split()))
-    numstack = list(map(int,input().split()))
-    myMin = 0xfffffff
-    myMax = 0
-    for i in range(4):
-        dfs(i,numstack[0])
+for tc in range(1, T+1):
+    myMax = -987654321
+    myMin = 987654321
+    N = int(input())    # 숫자개수
+    oper= list(map(int, input().split()))  # 연산자
+    nums = list(map(int, input().split())) # 숫자
 
+    dfs(0, nums[0])
     result = myMax - myMin
-    print("#{} {}".format(tc,result))
+    print("#{} {}".format(tc, result))
+
+

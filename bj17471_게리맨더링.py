@@ -1,18 +1,34 @@
-def islinked(lst):
-    if len(lst) == 0:
+def islinked(lst1,lst2):
+    if len(lst1) == 0 or len(lst2) == 0:
         return False
+    visited = [0] * N
+    # sector1 checklink
     stack = []
-    visited = [0]*N
-    s = lst[0]
-    visited[0] = 1
+    s = lst1[0]
+    visited[s] = 1
     stack.append(s)
     while stack:
         c = stack.pop()
-        for i in range(N):
+        for i in lst1:
             if waypointer[c][i] and not visited[i]:
                 visited[i] = 1
                 stack.append(i)
-    for i in lst:
+    for i in lst1:
+        if not visited[i]:
+            return False
+
+    # sector2 checklink
+    stack = []
+    s = lst2[0]
+    visited[s] = 1
+    stack.append(s)
+    while stack:
+        c = stack.pop()
+        for i in lst2:
+            if waypointer[c][i] and not visited[i]:
+                visited[i] = 1
+                stack.append(i)
+    for i in lst2:
         if not visited[i]:
             return False
     return True
@@ -25,19 +41,16 @@ def vol(lst):
 
 def subset(c,idx):
     global result
-    print(divison[:c])
     sector1 = divison[:c]
     sector2 = []
     for n in range(N):
         if n not in sector1:
             sector2.append(n)
 
-    if islinked(sector1) and islinked(sector2):
+    if islinked(sector1,sector2):
         cnt = abs(vol(sector1) - vol(sector2))
         if cnt < result:
             result = cnt
-        else:
-            return
 
     if c == N:
         return
@@ -63,4 +76,4 @@ for i in range(N):
 subset(0,0)
 if result == 0xfffffff:
     result = -1
-# print(result)
+print(result)

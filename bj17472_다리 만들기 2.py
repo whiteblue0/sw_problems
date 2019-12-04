@@ -11,6 +11,7 @@ def isIsle(y,x):
     return 0 <= y < N and 0 <= x < M and data[y][x] and not isleMap[y][x]
 
 def checkBridge(y,x):
+    global cntB
     islenum = isleMap[y][x]
     for i in range(4):
         ny,nx = y+dy[i],x+dx[i]
@@ -21,8 +22,9 @@ def checkBridge(y,x):
                 ny2 += dy[i]
                 nx2 += dx[i]
                 cntB += 1
-                if isleMap[ny2][nx2]:
-                    bridge[islenum].add(isleMap[ny2][nx2])
+                if isIsle(ny2,nx2) and bridge[islenum][isleMap[ny2][nx2]] > cntB:
+                    bridge[islenum][isleMap[ny2][nx2]] = cntB-1
+                    break
 
 
 
@@ -39,7 +41,7 @@ def makeisle(sy,sx):
                 que.append((ny,nx))
 
 
-N,M =map(int,input().split())
+N,M = map(int,input().split())
 data = [list(map(int,input().split())) for _ in range(N)]
 isleMap = [[0]*M for _ in range(N)]
 
@@ -49,16 +51,21 @@ for i in range(N):
         if data[i][j] and not isleMap[i][j]:
             cntisl += 1
             makeisle(i,j)
-bridge = dict()
-for i in range(1,cntisl+1):
-    bridge[i] = set()
 
-for i in range(1,cntisl+1):
-    print(bridge[i])
+bridge = [[9]*(cntisl+1) for _ in range(cntisl+1)]
+
 
 for i in range(N):
     for j in range(M):
         if isleMap[i][j]:
             checkBridge(i,j)
+
+for i in range(N):
+    print(isleMap[i])
+print()
+
+for i in range(len(bridge)):
+    print(bridge[i])
+
 # for i in range(N):
 #     print(isleMap[i])

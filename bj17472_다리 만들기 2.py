@@ -10,21 +10,43 @@ def iswater(y,x):
 def isIsle(y,x):
     return 0 <= y < N and 0 <= x < M and data[y][x] and not isleMap[y][x]
 
+def isIsleMap(y,x):
+    return 0 <= y < N and 0 <= x < M and isleMap[y][x]
+
 def checkBridge(y,x):
-    global cntB
     islenum = isleMap[y][x]
     for i in range(4):
         ny,nx = y+dy[i],x+dx[i]
         if iswater(ny,nx) and iswater(ny+dy[i],nx+dx[i]):
-            cntB = 2
+            Blen = 2
             ny2,nx2 = ny+dy[i],nx+dx[i]
             while 0<=ny2<N and 0<=nx2<M:
-                ny2 += dy[i]
-                nx2 += dx[i]
-                cntB += 1
-                if isIsle(ny2,nx2) and bridge[islenum][isleMap[ny2][nx2]] > cntB:
-                    bridge[islenum][isleMap[ny2][nx2]] = cntB-1
-                    break
+                # if isleMap[ny2][nx2]>0 and bridge[islenum-1][isleMap[ny2][nx2]-1] > Blen:
+                #     bridge[islenum-1][isleMap[ny2][nx2]-1] = Blen - 1
+                #     break
+                if isleMap[ny2][nx2]>0:
+                    for k in range(len(edge)):
+                        if edge[k][0] != islenum and edge[k][1] != isleMap[ny2][nx2]:
+                            if edge[k][1] != islenum and edge[k][0] != isleMap[ny2][nx2]:
+                                edge.append([islenum-1, isleMap[ny2][nx2]-1, Blen])
+                        if edge[k][0] == islenum and edge[k][1] == isleMap[ny2][nx2] and edge[k][2] > Blen:
+                            edge[k][2] = Blen
+                ny2+=dy[i]
+                nx2+=dx[i]
+                Blen+=1
+
+def makeEdge():
+    for i in range(cntisl):
+        for j in range(cntisl):
+            if i != j:
+                for k in range(len(edge)):
+                    if edge[k][0] == i and edge[k][1] == j:
+                        if edge[k][2] > bridge[i][j]:
+                            edge[k][2] = bridge[i][j]
+                    elif edge[k][0] == j and edge[k][1] == i:
+                        if edge[k][2] > bridge[i][j]:
+                            edge[k][2]=bridge[i][j]
+                edge.append([i,j,bridge[i][j]])
 
 
 
@@ -41,6 +63,8 @@ def makeisle(sy,sx):
                 que.append((ny,nx))
 
 
+
+
 N,M = map(int,input().split())
 data = [list(map(int,input().split())) for _ in range(N)]
 isleMap = [[0]*M for _ in range(N)]
@@ -52,7 +76,8 @@ for i in range(N):
             cntisl += 1
             makeisle(i,j)
 
-bridge = [[9]*(cntisl+1) for _ in range(cntisl+1)]
+bridge = [[99]*(cntisl) for _ in range(cntisl)]
+edge = []
 
 
 for i in range(N):
@@ -64,8 +89,6 @@ for i in range(N):
     print(isleMap[i])
 print()
 
-for i in range(len(bridge)):
-    print(bridge[i])
+for i in range(len(edge)):
+    print(i,edge[i])
 
-# for i in range(N):
-#     print(isleMap[i])

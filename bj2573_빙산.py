@@ -9,7 +9,10 @@ def ispass(y,x):
 def bfs(sy,sx):
     global cnt, flag
     que = deque()
-    visited[sy][sx] = 1
+    visited[sy][sx] = cnt
+    if cnt > 1:
+        flag = True
+        return
     que.append((sy,sx))
     while que:
         y,x = que.popleft()
@@ -17,9 +20,7 @@ def bfs(sy,sx):
             ny,nx = y+dy[i],x+dx[i]
             if ispass(ny,nx):
                 visited[ny][nx] = cnt
-                if cnt > 1:
-                    flag = True
-                    break
+
                 que.append((ny,nx))
     cnt += 1
 
@@ -28,7 +29,7 @@ def bfs(sy,sx):
 N, M = map(int, input().split())
 data = [list(map(int, input().split())) for _ in range(N)]
 iceberg = []
-visited = [[0]*M for _ in range(N)]
+
 
 icemax = 0
 for i in range(N):
@@ -41,14 +42,17 @@ for i in range(N):
 result = 0
 
 for t in range(icemax+1):
+    visited = [[0] * M for _ in range(N)]
     cnt = 1
     flag = False
     for i in range(len(iceberg)):
-        if not visited[iceberg[i][0]][iceberg[j][1]]:
-            bfs(iceberg[i][0],iceberg[j][1])
-        if flag:
-            result =  t
-            break
+        if ispass(iceberg[i][0],iceberg[i][1]):
+            bfs(iceberg[i][0],iceberg[i][1])
+            if flag:
+                break
+    if flag:
+        result = t
+        break
 
     if not flag:
         for i in range(len(iceberg)):
@@ -69,9 +73,5 @@ for t in range(icemax+1):
             y = iceberg[i][0]
             x = iceberg[i][1]
             data[y][x] = iceberg[i][2]
-    print(t)
-    for i in range(N):
-        print(data[i])
-    print(result)
-    print()
-# print(result)
+
+print(result)

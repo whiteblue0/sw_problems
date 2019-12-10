@@ -10,6 +10,7 @@ def ispass(y,x):
 def dfs(sy,sx):
     global cnt,lst
     stack = deque()
+    cnt += 1
     visited[sy][sx] = cnt
     stack.append((sy,sx))
     volume = 1
@@ -22,7 +23,6 @@ def dfs(sy,sx):
                 volume += 1
                 stack.append((ny,nx))
     lst.append(volume)
-    cnt += 1
 
 
 N = int(input())
@@ -35,7 +35,7 @@ for i in range(N):
     data.append(temp)
 visited = [[0]*N for _ in range(N)]
 lst = []
-cnt = 1
+cnt = 0
 
 for i in range(N):
     for j in range(N):
@@ -44,7 +44,6 @@ for i in range(N):
 
 
 lst.sort()
-cnt -= 1
 print(cnt)
 for i in range(len(lst)):
     print(lst[i])

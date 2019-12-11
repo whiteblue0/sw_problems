@@ -49,7 +49,7 @@ while True:
     visited = [[0] * M for _ in range(N)]
     touched = [[0] * M for _ in range(N)]
     bfs(0, 0)
-    cheesecnt = len((melt))
+    cheesecnt = len(melt)
     for i in range(len(melt)):
         y = melt[i][0]
         x = melt[i][1]

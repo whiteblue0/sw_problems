@@ -20,7 +20,7 @@ def dfs(c, cnt):
     for i in range(4):
         if operdata[i] == 0:
             continue
-            operdata[i] -= 1
+        operdata[i] -= 1
         dfs(c + 1, calc(cnt, c+1, i))
         operdata[i] += 1
 

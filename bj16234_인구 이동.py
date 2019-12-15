@@ -12,6 +12,7 @@ def bfs(sy,sx):
     visited[sy][sx] = 1
     que.append((sy,sx))
     people = 0
+    people += data[sy][sx]
     nation = [(sy,sx)]
     while que:
         y,x = que.popleft()
@@ -23,16 +24,10 @@ def bfs(sy,sx):
                 people += data[ny][nx]
                 nation.append((ny,nx))
                 que.append((ny,nx))
-
-    if flag:
-        for i in range(len(nation)):
-            y = nation[i][0]
-            x = nation[i][1]
-            data[y][x] = people//len(nation)
-        cnt += 1
-
-
-
+    for i in range(len(nation)):
+        y = nation[i][0]
+        x = nation[i][1]
+        data[y][x] = people//len(nation)
 
 
 N,L,R = map(int, input().split())
@@ -46,18 +41,12 @@ while True:
     visited = [[0] * N for _ in range(N)]
     for i in range(N):
         for j in range(N):
-            for k in range(N):
-                print(data[k])
-            print()
             if not visited[i][j]:
                 bfs(i,j)
 
-            for k in range(N):
-                print(visited[k])
-            print(cnt)
-            print()
-
-    if not flag:
+    if flag:
+        cnt += 1
+    else:
         break
 
 print(cnt)

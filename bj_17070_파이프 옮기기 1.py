@@ -20,54 +20,80 @@ def shift(p,s,i):
     if s == 0:
         # 가로>>가로
         if i == 0:
+            # tail
             c[0][1] += 1
+            # head
             c[1][1] += 1
         # 가로>>대각선
         elif i == 1:
+            # tail
             c[0][1] += 1
+            # head
             c[1][0] += 1
             c[1][1] += 1
     # 대각선상태
     elif s == 1:
         # 대각선>>가로
         if i == 0:
-            c[1][1] -= 1
-        # 대각선>>대각선
-        elif i == 1:
+            # tail
             c[0][0] += 1
             c[0][1] += 1
+            # head
+            c[1][1] += 1
+        # 대각선>>대각선
+        elif i == 1:
+            # tail
+            c[0][0] += 1
+            c[0][1] += 1
+            # head
             c[1][0] += 1
             c[1][1] += 1
         # 대각선>>세로
         else:
-            c[1][0] -= 1
+            # tail
+            c[0][0]+=1
+            c[0][1]+=1
+            # head
+            c[1][0] += 1
     # 세로상태
     else:
         # 세로>>대각선
         if i == 1:
+            # tail
+            c[0][0] += 1
+            # head
+            c[1][0] += 1
             c[1][1] += 1
         # 세로>>세로
         elif i == 2:
-            c[0][1] += 1
-            c[0][1] += 1
+            # tail
+            c[0][0] += 1
+            # head
+            c[1][0] += 1
     return c
 
 def ispass(p,status):
     # mapcheck
     hy,hx = p[1][0],p[1][1]
-
+    # print("hy,hx:",hy,hx)
+    # print("status:",status)
     if not 0 <= hy < N or not 0 <= hx < N:
         # print("ispass p:", p)
-        # print(hy,hx)
+
         return False
 
     # wallcheck
+
     if status == 1:
-        if data[hy][hx] or data[hy-1][hx] or data[hy][hx-1]:
+        if data[hy][hx]+data[hy-1][hx]+data[hy][hx-1]:
+            # print("wall",data[hy][hx], data[hy-1][hx], data[hy][hx-1])
             return False
     else:
         if data[hy][hx] == 1:
+            # print("wall",data[hy][hx])
             return False
+
+    # visitedcheck
     if visited[hy][hx]:
         return False
     return True
@@ -88,11 +114,9 @@ def dfs(p):
         # print("i:",i)
         np = shift(p,status,i)
 
-        if ispass(np,status):
+        if ispass(np,i):
             # print(p, ">>", np)
-            visited[np[1][0]][np[1][1]] = 1
             dfs(np)
-            visited[np[1][0]][np[1][1]] = 0
 
 
 N = int(input())

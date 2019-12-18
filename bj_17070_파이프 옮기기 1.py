@@ -1,3 +1,4 @@
+from collections import deque
 
 def getstatus(pipe):
     # 가로
@@ -79,7 +80,6 @@ def ispass(p,status):
     # print("status:",status)
     if not 0 <= hy < N or not 0 <= hx < N:
         # print("ispass p:", p)
-
         return False
 
     # wallcheck
@@ -93,30 +93,31 @@ def ispass(p,status):
             # print("wall",data[hy][hx])
             return False
 
-    # visitedcheck
-    if visited[hy][hx]:
-        return False
+    # # visitedcheck
+    # if visited[hy][hx]:
+    #     return False
     return True
 
 
-def dfs(p):
+def bfs(sp):
+    que = deque()
     global cnt
-    # print(p)
-    status = getstatus(p)
-    head = p[1]
-    # print(head)
-    if head == [N-1,N-1]:
-        cnt += 1
+    que.append(sp)
 
-    for i in range(3):
-        if abs(status-i) == 2:
-            continue
-        # print("i:",i)
-        np = shift(p,status,i)
+    while que:
+        p = que.popleft()
+        print(p)
+        status=getstatus(p)
+        if p[1]==[N-1,N-1]:
+            cnt+=1
+        for i in range(3):
+            if abs(status-i) == 2:
+                continue
+            np = shift(p,status,i)
 
-        if ispass(np,i):
-            # print(p, ">>", np)
-            dfs(np)
+            if ispass(np,i):
+                # print(p, ">>", np)
+                que.append(np)
 
 
 N = int(input())
@@ -125,5 +126,25 @@ pipe = [[0,0],[0,1]]
 visited = [[0]*N for _ in range(N)]
 cnt = 0
 
-dfs(pipe)
+bfs(pipe)
 print(cnt)
+
+
+# failed case
+# 16
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+# 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1

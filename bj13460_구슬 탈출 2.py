@@ -4,74 +4,88 @@ dy = [0,1,0,-1]
 
 
 def tilt(cmd):
-    global flag,Rball,Bball
+    global flag, Rball, Bball
+    if cmd == 9:
+        return
     checkR = [Rball[0], Rball[1]]
     checkB = [Bball[0], Bball[1]]
     # print(cmd)
     Rflag = 0
     Bflag = 0
-    while True:
+    while data[checkB[0]][checkB[1]] != 9:
+
+        if checkB == Rball:
+            Rflag = 1
         if checkB == hole:
             flag = 0
             break
-        else:
-            Bball[0] = checkB[0]
-            Bball[1] = checkB[1]
-            if Rflag:
-                Bball[0] -= dy[cmd]
-                Bball[1] -= dx[cmd]
 
+        checkB[0] += dy[cmd]
+        checkB[1] += dx[cmd]
 
-        if data[checkB[0]][checkB[1]] != 9:
-            checkB[0]+=dy[cmd]
-            checkB[1]+=dx[cmd]
-        if [checkB[0],checkB[1]] == Rball:
-            Rflag = 1
+    checkB[0] -= dy[cmd]
+    checkB[1] -= dx[cmd]
+    if Rflag:
+        checkB[0] -= dy[cmd]
+        checkB[1] -= dx[cmd]
 
-    while True:
-        if not Bflag and checkR == hole:
-            flag = 1
-            break
-        else:
-            Rball[0] = checkR[0]
-            Rball[1] = checkR[1]
-            if Bflag:
-                Rball[0] -= dy[cmd]
-                Rball[1] -= dx[cmd]
-
-        if data[checkR[0]][checkR[1]] != 9:
-            checkR[0]+=dy[cmd]
-            checkR[1]+=dx[cmd]
-        if [checkR[0],checkR[1]] == Bball:
+    while data[checkR[0]][checkR[1]] != 9:
+        if checkR == Bball:
             Bflag = 1
+        if checkR == hole:
+            if not Bflag:
+                flag = 1
+            else:
+                flag = 0
+            break
+
+        checkR[0] += dy[cmd]
+        checkR[1] += dx[cmd]
+
+    checkR[0] -= dy[cmd]
+    checkR[1] -= dx[cmd]
+    if Bflag:
+        checkR[0] -= dy[cmd]
+        checkR[1] -= dx[cmd]
+
+    Rball = checkR
+    Bball = checkB
+    # print("Rball,Bball:",Rball,Bball)
 
 
 def dfs(c):
     global ans,flag
-    print(cmd,flag)
-    # print(Rball,Bball)
+
     if not flag:
-        return
-    elif flag == 1:
-        ans = c
+        ans = -1
         return
 
-    if c == 11:
-        ans = -1
+    # print("cmd,flag:",cmd[:c],flag)
+    # print("c,flag:",c,flag)
+    # print(Rball,Bball)
+    cnt = 0
+    for j in range(c-1):
+        if cmd[j] == cmd[j+1]:
+            continue
+        tilt(cmd[j])
+        cnt += 1
+    if cnt > ans:
+        ans = cnt
+
+    if flag == 1:
+        # ans = cnt
+        # print("ans:",ans)
+        return
+    elif c == 11:
         return
 
     for i in range(4):
         if not visited[c]:
             visited[c] = 1
             cmd[c] = i
-            # print(c)
-            tilt(i)
-            # print()
             dfs(c+1)
-
-            tilt((cmd[c]+2)%4)
             visited[c] = 0
-            cmd[c] = 9
+
 
 
 

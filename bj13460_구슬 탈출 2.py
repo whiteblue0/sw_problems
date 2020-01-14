@@ -53,38 +53,19 @@ def tilt(cmd):
     # print("Rball,Bball:",Rball,Bball)
 
 
-def dfs(c):
+def dfs(c,d):
     global ans,flag
-
-    if not flag:
-        ans = -1
-        return
-
-    # print("cmd,flag:",cmd[:c],flag)
-    # print("c,flag:",c,flag)
-    # print(Rball,Bball)
-    cnt = 0
-    for j in range(c-1):
-        if cmd[j] == cmd[j+1]:
-            continue
-        tilt(cmd[j])
-        cnt += 1
-    if cnt > ans:
-        ans = cnt
-
-    if flag == 1:
-        # ans = cnt
-        # print("ans:",ans)
-        return
-    elif c == 11:
-        return
-
+    visited[c] = 1
+    tilt(d)
     for i in range(4):
-        if not visited[c]:
-            visited[c] = 1
-            cmd[c] = i
-            dfs(c+1)
-            visited[c] = 0
+        if not visited[c+1]:
+            if i == c:
+                continue
+            else:
+                dfs(c+1,i)
+                visited[c+1] = 0
+
+
 
 
 
@@ -118,5 +99,6 @@ for i in range(N):
 print("Rball,Bball:",Rball,Bball)
 for i in range(N):
     print(data[i])
-dfs(0)
+for i in range(4):
+    dfs(0,i)
 print(ans)

@@ -1,104 +1,116 @@
-# 우, 하, 좌, 상
+# 우,하,좌,상
 dx = [1,0,-1,0]
 dy = [0,1,0,-1]
 
+def ispass(y,x):
+    return 0<=y<N and 0<=x<M and data[y][x]==0
 
-def tilt(cmd):
-    global flag, Rball, Bball
-    if cmd == 9:
-        return
-    checkR = [Rball[0], Rball[1]]
-    checkB = [Bball[0], Bball[1]]
-    # print(cmd)
-    Rflag = 0
-    Bflag = 0
-    while data[checkB[0]][checkB[1]] != 9:
-
-        if checkB == Rball:
-            Rflag = 1
-        if checkB == hole:
-            flag = 0
+def tilt(d,sry,srx,sby,sbx):
+    flag = 0
+    isred = 0
+    isblue = 0
+    ry,rx,by,bx = sry,srx,sby,sbx
+    while True:
+        nby,nbx = by+dy[d],bx+dx[d]
+        if [nby,nbx] == hole:
+            flag = -1
+            return (ry,rx,by,bx,flag)
+        elif [nby, nbx] == [sry,srx]:
+            isred = 1
+        elif data[nby][nbx] == 9:
+            nby -= dy[d]
+            nbx -= dx[d]
+            by, bx = nby, nbx
             break
+        by,bx = nby,nbx
+    if isred:
+        by -= dy[d]
+        bx -= dx[d]
 
-        checkB[0] += dy[cmd]
-        checkB[1] += dx[cmd]
-
-    checkB[0] -= dy[cmd]
-    checkB[1] -= dx[cmd]
-    if Rflag:
-        checkB[0] -= dy[cmd]
-        checkB[1] -= dx[cmd]
-
-    while data[checkR[0]][checkR[1]] != 9:
-        if checkR == Bball:
-            Bflag = 1
-        if checkR == hole:
-            if not Bflag:
+    if not flag:
+        while True:
+            nry,nrx = ry+dy[d],rx+dx[d]
+            if [nry,nrx] == hole and not flag == -1:
+                ry, rx = nry, nrx
                 flag = 1
-            else:
-                flag = 0
-            break
+                break
+            elif [nry, nrx] == [sby,sbx]:
+                isblue = 1
+            elif data[nry][nrx] == 9:
+                nry -= dy[d]
+                nrx -= dx[d]
+                ry, rx = nry, nrx
+                break
+            ry,rx = nry,nrx
+        if isblue:
+            ry -= dy[d]
+            rx -= dx[d]
 
-        checkR[0] += dy[cmd]
-        checkR[1] += dx[cmd]
+    return (ry,rx,by,bx,flag)
 
-    checkR[0] -= dy[cmd]
-    checkR[1] -= dx[cmd]
-    if Bflag:
-        checkR[0] -= dy[cmd]
-        checkR[1] -= dx[cmd]
+def dfs(d,ry,rx,by,bx,cnt):
+    global ans
+    cnt += 1
+    (ry,rx,by,bx,flag) = tilt(d,ry,rx,by,bx)
 
-    Rball = checkR
-    Bball = checkB
-    # print("Rball,Bball:",Rball,Bball)
+    if flag == -1 and not ans > 0:
+        ans = flag
+        return
+    elif flag == 1:
+        if ans == 0 or ans == -1:
+            ans = cnt
+        elif cnt < ans:
+            ans = cnt
+        return
+    elif cnt == 10:
+        return
 
-
-def dfs(c,d):
-    global ans,flag
-    visited[c] = 1
-    tilt(d)
     for i in range(4):
-        if not visited[c+1]:
-            if i == c:
-                continue
-            else:
-                dfs(c+1,i)
-                visited[c+1] = 0
+        if i != d and not visited[cnt]:
+            visited[cnt] = 1
+            dfs(i,ry,rx,by,bx,cnt)
+            visited[cnt] = 0
 
 
-
-
-
-
-N,M = map(int,input().split())
+N,M = map(int, input().split())
 data = [[0]*M for _ in range(N)]
-visited = [0]*11
-cmd = [9]*11
-Rball = [] # 1
-Bball = [] # 2
-hole = []
-flag = 2
-ans = 0
 for i in range(N):
-    t = input()
-    for j in range(len(t)):
-        if t[j] == "#":
+    temp = input()
+    for j in range(M):
+        if temp[j] == '#':
             data[i][j] = 9
-        elif t[j] == ".":
+        elif temp[j] == '.':
             data[i][j] = 0
-        elif t[j] == "B":
-            data[i][j] = 2
-            Bball = [i,j]
-        elif t[j] == "R":
-            data[i][j] = 1
-            Rball = [i,j]
-        else:
-            data[i][j] = 3
-            hole  = [i,j]
+        elif temp[j] == 'B':
+            data[i][j] = 0
+            blue = [i,j]
+        elif temp[j] == 'R':
+            data[i][j] = 0
+            red = [i,j]
+        elif temp[j] == 'O':
+            data[i][j] = -1
+            hole = [i,j]
 
-print("Rball,Bball:",Rball,Bball)
-for i in range(N):
-    print(data[i])
+ans = 0
+visited = [0]*11
 for i in range(4):
-    dfs(0,i)
+    dfs(i,red[0],red[1],blue[0],blue[1],0)
+
+if ans == 0:
+    ans = -1
 print(ans)
+
+# testCase
+10 10
+##########
+#RB....#.#
+#..#.....#
+#........#
+#.O......#
+#...#....#
+#........#
+#........#
+#.......##
+##########
+
+output: 10

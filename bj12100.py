@@ -11,54 +11,76 @@ def checkmax(data):
     return mymax
 
 def join(lst):
-    i = 0
-    while i < (len(lst)-1):
+    # 0이 아닌 숫자들만 받아 인접한 숫자와 같은 숫자인지 확인
+    for i in range(len(lst)-1):
         if lst[i] == lst[i+1]:
-            lst[i] = lst[i]*2
+            lst[i] *= 2
             lst[i+1] = 0
-        i += 1
-    for num in lst:
-        if num == 0:
-            lst.remove(0)
 
-    for i in range(N-len(lst)):
-        lst.append(0)
-    return lst
+    # filteredLst에 0이 아닌 값만 저장
+    filteredLst = []
+    for i in range(len(lst)):
+        if lst[i]:
+            filteredLst.append(lst[i])
+    # filteredLst의 길이가 N이 될 때까지 0 추가
+    while len(filteredLst) < N:
+        filteredLst.append(0)
+    return filteredLst
 
 def moveR(data):
+    # 0번째부터 N번째 줄까지
     for i in range(N):
         que = []
+        # 오른쪽부터 값을 받아 join함수로 숫자를 합칠수 있는지 확인
         for j in range(N-1,-1,-1):
             if data[i][j]:
                 que.append(data[i][j])
-        print(que)
+        # print("before joined:",que)
+        # 움직인 방향으로 합친 숫자 반환
         que = join(que)
-        print(que)
+        # print("after joined:",que)
+        # que에 저장된 수행 결과를 데이터에 변환
         for j in range(N-1,-1,-1):
             data[i][j] = que[N-1-j]
-
-
-
-def moveD(data):
-    pass
+    return data
 
 def moveL(data):
-    pass
+    for i in range(N):
+        que = []
+        for j in range(N):
+            if data[i][j]:
+                que.append(data[i][j])
+        que = join(que)
+        for j in range(N):
+            data[i][j] = que[j]
+    return data
+
+def moveD(data):
+    for i in range(N):
+        que = []
+        for j in range(N-1,-1,-1):
+            if data[j][i]:
+                que.append(data[i][j])
+        que = join(que)
+        for j in range(N-1,-1,-1):
+            data[j][i]=que[N-1-j]
+    return data
 
 def moveU(data):
-    pass
+    for i in range(N):
+        que = []
+        for j in range(N):
+            if data[j][i]:
+                que.append(data[i][j])
+        que = join(que)
+        for j in range(N):
+            data[j][i] = que[j]
+    return data
 
-controller = {0:moveR, 1:moveD, 2:moveL, 3:moveU}
+
 def move(data,d):
-    # if d == 0:
-    #     return moveR(data)
-    # elif d == 1:
-    #     return moveD(data)
-    # elif d == 2:
-    #     return moveL(data)
-    # else:
-    #     return moveU(data)
-    return controller[d]()
+    controller={0: moveR,1: moveD,2: moveL,3: moveU}
+    return controller[d](data)
 
 
 def dfs(board,d,cnt):
@@ -69,12 +91,10 @@ def dfs(board,d,cnt):
         mymax = checkmax(board)
         if ans < mymax:
             ans = mymax
-            return
+        return
     for i in range(4):
-        if i != d and not visited[cnt]:
-            visited[cnt] = 1
+            print(i)
             dfs(board,i,cnt+1)
-            visited[cnt] = 0
 
 
 N = int(input())
@@ -94,3 +114,10 @@ print(ans)
 # 8 4 0 4 2
 # 4 0 4 0 8
 # 2 0 0 2 0
+
+
+# 4
+# 2 2 2 2
+# 2 2 2 2
+# 2 2 2 2
+# 2 2 2 2
